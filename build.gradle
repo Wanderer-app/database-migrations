@@ -26,9 +26,8 @@ dependencies {
 
 configurations.liquibaseRuntime.extendsFrom configurations.runtime
 
-def properties = new Properties()
-file("gradle.properties").withInputStream { properties.load(it) }
-
+def prodProperties = new Properties()
+file("db-prod.properties").withInputStream { prodProperties.load(it) }
 task('prod') {
     doLast {
         println "executing prod"
@@ -38,13 +37,13 @@ task('prod') {
                 main {
                     changeLogFile 'src/main/resources/changelog.xml'
 
-                    url properties.getProperty('prod.db.url')
-                    username properties.getProperty('prod.db.user')
-                    password properties.getProperty('prod.db.pass')
+                    url prodProperties.getProperty('prod.db.url')
+                    username prodProperties.getProperty('prod.db.user')
+                    password prodProperties.getProperty('prod.db.pass')
 
-                    referenceUrl properties.getProperty('prod.db.url')
-                    referenceUsername properties.getProperty('prod.db.user')
-                    referencePassword properties.getProperty('prod.db.pass')
+                    referenceUrl prodProperties.getProperty('prod.db.url')
+                    referenceUsername prodProperties.getProperty('prod.db.user')
+                    referencePassword prodProperties.getProperty('prod.db.pass')
                 }
             }
             runList = 'main'
@@ -52,6 +51,8 @@ task('prod') {
     }
 }
 
+def localProperties = new Properties()
+file("db-local.properties").withInputStream { localProperties.load(it) }
 task('local') {
     doLast {
         println "executing local"
@@ -61,23 +62,17 @@ task('local') {
                 main {
                     changeLogFile 'src/main/resources/changelog.xml'
 
-                    url properties.getProperty('local.db.url')
-                    username properties.getProperty('local.db.user')
-                    password properties.getProperty('local.db.pass')
+                    url localProperties.getProperty('local.db.url')
+                    username localProperties.getProperty('local.db.user')
+                    password localProperties.getProperty('local.db.pass')
 
-                    referenceUrl properties.getProperty('local.db.url')
-                    referenceUsername properties.getProperty('local.db.user')
-                    referencePassword properties.getProperty('local.db.pass')
+                    referenceUrl localProperties.getProperty('local.db.url')
+                    referenceUsername localProperties.getProperty('local.db.user')
+                    referencePassword localProperties.getProperty('local.db.pass')
                 }
             }
             runList = 'main'
         }
-    }
-}
-
-task('aaa') {
-    doLast {
-        println "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     }
 }
 
