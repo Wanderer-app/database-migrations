@@ -6,9 +6,13 @@
 		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet author="nika.jamburia" id="1">
-        <sqlFile path="src/main/resources/sql/2021-03-10-add-films-table.sql" relativeToChangelogFile="false"/>
+        <sqlFile path="src/main/resources/sql/2021-03-11-create-basic-tables.sql" relativeToChangelogFile="false"/>
         <rollback>
-            drop table films;
+            DROP SCHEMA public CASCADE;
+            CREATE SCHEMA public;
+            GRANT ALL ON SCHEMA public TO postgres;
+            GRANT ALL ON SCHEMA public TO public;
+            COMMENT ON SCHEMA public IS 'standard public schema';
         </rollback>
     </changeSet>
 </databaseChangeLog>

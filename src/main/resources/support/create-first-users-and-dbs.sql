@@ -1,4 +1,4 @@
-create role test with login encrypted password 'test123';
+create role test with superuser login encrypted password 'test123';
 create role prod with superuser login encrypted password 'prod123';
 
 
